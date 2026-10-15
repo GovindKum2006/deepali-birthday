@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import BackgroundPhotoAmbient from './components/BackgroundPhotoAmbient';
 import ParticleBackground from './components/ParticleBackground';
 import InteractiveCursorTrail from './components/InteractiveCursorTrail';
@@ -14,11 +14,25 @@ export default function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const photosRef = useRef(null);
 
-  const handleOpenSurprise = () => {
-    // Start music on first interaction
-    setIsPlayingMusic(true);
+  // Auto-start music on first touch or click anywhere if user hasn't explicitly muted
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      setIsPlayingMusic(true);
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+    };
 
-    // Smooth scroll down to the photos and story experience
+    window.addEventListener('click', handleFirstInteraction, { once: true });
+    window.addEventListener('touchstart', handleFirstInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+    };
+  }, []);
+
+  const handleOpenSurprise = () => {
+    setIsPlayingMusic(true);
     if (photosRef.current) {
       photosRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -39,7 +53,7 @@ export default function App() {
       {/* 3. Interactive Floating Cursor Trail (Hearts & Sparkles on touch/mouse) */}
       <InteractiveCursorTrail />
 
-      {/* 4. Floating Romantic Music Controller */}
+      {/* 4. Floating Romantic Music Controller (Arijit Singh - Tum Hi Ho) */}
       <MusicPlayer
         isPlaying={isPlayingMusic}
         onTogglePlay={() => setIsPlayingMusic(!isPlayingMusic)}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX, Music, Heart, Disc3 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetUrl';
 
 export default function MusicPlayer({ isPlaying, onTogglePlay }) {
   const [isMuted, setIsMuted] = useState(false);
@@ -9,9 +10,12 @@ export default function MusicPlayer({ isPlaying, onTogglePlay }) {
     if (!audioRef.current) return;
 
     if (isPlaying) {
-      audioRef.current.play().catch((err) => {
-        console.warn('Audio autoplay blocked, waiting for user interaction:', err);
-      });
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn('Audio play failed or was blocked by browser:', err);
+        });
+      }
     } else {
       audioRef.current.pause();
     }
@@ -29,7 +33,7 @@ export default function MusicPlayer({ isPlaying, onTogglePlay }) {
     <>
       <audio
         ref={audioRef}
-        src="/arijit-singh-tum-hi-ho.mp3"
+        src={getAssetUrl('arijit-singh-tum-hi-ho.mp3')}
         loop
         preload="auto"
       />

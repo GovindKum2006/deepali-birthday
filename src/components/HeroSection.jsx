@@ -2,10 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Sparkles, Gift, Calendar, Star } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { getAssetUrl } from '../utils/assetUrl';
 
 export default function HeroSection({ onOpenSurprise }) {
+  const photo1 = getAssetUrl('deepali-photo-1.jpg');
+  const photo2 = getAssetUrl('deepali-photo-2.jpg');
+
   const handleOpenClick = () => {
-    // Launch a gentle heart confetti burst on click
     confetti({
       particleCount: 60,
       spread: 80,
@@ -39,7 +42,7 @@ export default function HeroSection({ onOpenSurprise }) {
       >
         <div className="w-28 xl:w-36 aspect-[3/4] rounded-xl overflow-hidden relative shadow-md">
           <img
-            src="/deepali-photo-1.jpg"
+            src={photo1}
             alt="Deepali portrait"
             className="w-full h-full object-cover"
           />
@@ -65,7 +68,7 @@ export default function HeroSection({ onOpenSurprise }) {
       >
         <div className="w-28 xl:w-36 aspect-[3/4] rounded-xl overflow-hidden relative shadow-md">
           <img
-            src="/deepali-photo-2.jpg"
+            src={photo2}
             alt="Govind and Deepali"
             className="w-full h-full object-cover"
           />
@@ -135,7 +138,6 @@ export default function HeroSection({ onOpenSurprise }) {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-10 relative"
         >
-          {/* Pulsing ring aura */}
           <span className="absolute -inset-2 rounded-full bg-gradient-to-r from-rose-500/40 to-pink-500/40 blur-lg animate-pulse" />
 
           <button
@@ -143,7 +145,6 @@ export default function HeroSection({ onOpenSurprise }) {
             onClick={handleOpenClick}
             className="group relative inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-full text-lg sm:text-xl font-medium text-white transition-all duration-300 transform hover:scale-105 active:scale-95 bg-gradient-to-r from-rose-600 via-pink-600 to-rose-700 box-glow-rose hover:box-glow-gold overflow-hidden border border-rose-300/40"
           >
-            {/* Shimmer overlay */}
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
 
             <Gift className="w-6 h-6 text-amber-200 group-hover:rotate-12 transition-transform duration-300 animate-bounce" />

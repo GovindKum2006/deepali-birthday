@@ -1,28 +1,31 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, X, ZoomIn, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, Sparkles, X, ZoomIn, Image as ImageIcon } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetUrl';
 
-const ALL_MEMORIES = [
-  { src: '/deepali-photo-1.jpg', caption: 'Deepali\'s grace and sweet smile' },
-  { src: '/deepali-photo-2.jpg', caption: 'Govind & Deepali together, smiling under the sun' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.26 AM.jpeg', caption: 'Radiant happiness & effortless style' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.28 AM.jpeg', caption: 'Fun memories and endless laughter' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.30 AM.jpeg', caption: 'Cherished moments with friends' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.46 AM.jpeg', caption: 'A sunlit day filled with gentle breezes' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.48 AM.jpeg', caption: 'College days & proud milestones together' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.51 AM.jpeg', caption: 'Unforgettable smiles and college corridor vibes' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.52 AM.jpeg', caption: 'Deepali\'s thoughtful and sweet moments' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.53 AM.jpeg', caption: 'Pure candid beauty' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.54 AM.jpeg', caption: 'Shy giggles and cute candid memories' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.55 AM.jpeg', caption: 'Serenity and quiet grace' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.57 AM.jpeg', caption: 'Another chapter in our beautiful story' },
-  { src: '/memories/WhatsApp Image 2026-10-16 at 12.34.27 AM.jpeg', caption: 'Looking towards a future full of dreams' },
+const ALL_MEMORIES_RAW = [
+  { path: 'deepali-photo-1.jpg', caption: 'Deepali\'s grace and sweet smile' },
+  { path: 'deepali-photo-2.jpg', caption: 'Govind & Deepali together, smiling under the sun' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.26 AM.jpeg', caption: 'Radiant happiness & effortless style' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.28 AM.jpeg', caption: 'Fun memories and endless laughter' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.30 AM.jpeg', caption: 'Cherished moments with friends' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.46 AM.jpeg', caption: 'A sunlit day filled with gentle breezes' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.48 AM.jpeg', caption: 'College days & proud milestones together' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.51 AM.jpeg', caption: 'Unforgettable smiles and college corridor vibes' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.52 AM.jpeg', caption: 'Deepali\'s thoughtful and sweet moments' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.53 AM.jpeg', caption: 'Pure candid beauty' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.54 AM.jpeg', caption: 'Shy giggles and cute candid memories' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.55 AM.jpeg', caption: 'Serenity and quiet grace' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.57 AM.jpeg', caption: 'Another chapter in our beautiful story' },
+  { path: 'memories/WhatsApp Image 2026-10-16 at 12.34.27 AM.jpeg', caption: 'Looking towards a future full of dreams' },
 ];
 
 export default function PhotosSection() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
-  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  const photo1Url = getAssetUrl('deepali-photo-1.jpg');
+  const photo2Url = getAssetUrl('deepali-photo-2.jpg');
 
   // 3D Tilt calculation for Photo 2
   const polaroidRef = useRef(null);
@@ -35,7 +38,6 @@ export default function PhotosSection() {
     const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    // Max tilt 12 degrees
     const tiltX = ((y - centerY) / centerY) * -10;
     const tiltY = ((x - centerX) / centerX) * 10;
     setTilt({ x: tiltX, y: tiltY });
@@ -93,12 +95,12 @@ export default function PhotosSection() {
 
           {/* Ornate Frame Container */}
           <div
-            onClick={() => setSelectedImage({ src: '/deepali-photo-1.jpg', caption: 'One picture, a thousand beautiful feelings ❤️' })}
+            onClick={() => setSelectedImage({ src: photo1Url, caption: 'One picture, a thousand beautiful feelings ❤️' })}
             className="cursor-pointer relative rounded-3xl p-3.5 bg-gradient-to-b from-rose-400/30 via-pink-500/20 to-amber-400/30 backdrop-blur-xl border border-rose-300/30 shadow-2xl shadow-rose-950/50 hover:shadow-rose-500/20 transition-all duration-500 transform hover:-translate-y-2"
           >
             <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-rose-950/50">
               <img
-                src="/deepali-photo-1.jpg"
+                src={photo1Url}
                 alt="Deepali portrait"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="eager"
@@ -144,7 +146,7 @@ export default function PhotosSection() {
             ref={polaroidRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            onClick={() => setSelectedImage({ src: '/deepali-photo-2.jpg', caption: 'My favourite memories have you in them 💗' })}
+            onClick={() => setSelectedImage({ src: photo2Url, caption: 'My favourite memories have you in them 💗' })}
             style={{
               transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               transition: 'transform 0.15s ease-out',
@@ -154,7 +156,7 @@ export default function PhotosSection() {
             {/* Photo Inside Polaroid */}
             <div className="relative aspect-[3/4] w-full rounded-md overflow-hidden bg-stone-300 shadow-inner">
               <img
-                src="/deepali-photo-2.jpg"
+                src={photo2Url}
                 alt="Govind and Deepali memory"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="eager"
@@ -203,26 +205,29 @@ export default function PhotosSection() {
             className="overflow-hidden mt-10"
           >
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 rounded-3xl bg-rose-950/30 border border-rose-500/20 backdrop-blur-md">
-              {ALL_MEMORIES.map((photo, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ scale: 1.03 }}
-                  onClick={() => setSelectedImage(photo)}
-                  className="group cursor-pointer relative aspect-[3/4] rounded-xl overflow-hidden bg-rose-950/60 border border-white/10 shadow-md"
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.caption}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2.5 flex items-end">
-                    <p className="text-[11px] text-rose-100 font-light line-clamp-2 leading-tight">
-                      {photo.caption}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+              {ALL_MEMORIES_RAW.map((item, idx) => {
+                const fullSrc = getAssetUrl(item.path);
+                return (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.03 }}
+                    onClick={() => setSelectedImage({ src: fullSrc, caption: item.caption })}
+                    className="group cursor-pointer relative aspect-[3/4] rounded-xl overflow-hidden bg-rose-950/60 border border-white/10 shadow-md"
+                  >
+                    <img
+                      src={fullSrc}
+                      alt={item.caption}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2.5 flex items-end">
+                      <p className="text-[11px] text-rose-100 font-light line-clamp-2 leading-tight">
+                        {item.caption}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         )}
